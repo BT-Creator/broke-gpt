@@ -51,6 +51,13 @@ const responses = [
     )
 ]
 
+let previousSelection = -1
+
 export default function generateResponse(query: string) {
-    return responses[Math.floor(Math.random() * (responses.length))](`https://www.google.com/search?q=${query.replace(" ", "+")}`)
+    let selected = Math.floor(Math.random() * (responses.length))
+    while (selected === previousSelection){
+        selected = Math.floor(Math.random() * (responses.length))
+    }
+    previousSelection = selected
+    return responses[selected](`https://www.google.com/search?q=${query.replace(" ", "+")}`)
 }
