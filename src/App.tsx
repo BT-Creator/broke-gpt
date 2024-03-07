@@ -1,7 +1,8 @@
 import { MdSend } from 'react-icons/md'
 import './App.css'
-import { ActionIcon, Affix, Group, TextInput } from '@mantine/core'
+import { ActionIcon, Affix, Group, Stack, Text, TextInput } from '@mantine/core'
 import { useState } from 'react'
+import Message from './components/Message';
 
 interface ChatMessage {
   "id": number;
@@ -39,7 +40,10 @@ function App() {
 
   return (
     <>
-      {chatlog.map((chat) => <p>{chat.message}</p>)}
+      <Stack mx='xl' gap='md' mt={'lg'}>
+        {chatlog.map((chat) => <Message userGenerated={chat.userCreated}><Text>{chat.message}</Text></Message>)}
+      </Stack>
+      
       <Affix
         position={{ bottom: 0, left: 0 }}>
         <Group
