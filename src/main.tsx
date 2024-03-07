@@ -8,6 +8,7 @@ import { MantineProvider } from '@mantine/core';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <MantineProvider theme={{
+      headings: { fontFamily: "Noto Sans, sans-serif" },
       fontFamily: "Noto Sans, sans-serif"
     }}>
       <App />
