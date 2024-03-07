@@ -12,10 +12,11 @@ export default function Message({userGenerated, children}:PropsWithChildren<Mess
             direction={(userGenerated) ? "row-reverse" : "row"} 
             wrap="nowrap" 
             align="center" 
-            gap="md" 
-            bg={(userGenerated) ? "lightgray" : "white"} 
-            p='lg'>
-            <Avatar color="blue" src={((userGenerated) ? undefined : "./vite.svg")}>
+            gap="md"
+            p='lg'
+            c="white"
+            bg={(userGenerated) ? "#212121" : "#323232"}>
+            <Avatar color="#1ec480" src={((userGenerated) ? undefined : "./vite.svg")}>
                 {userGenerated && <MdAccountCircle size="1.5rem"/>}
             </Avatar>
             {children}

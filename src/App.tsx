@@ -6,6 +6,7 @@ import Message from './components/Message';
 import generateResponse from './utils/responseGenerator';
 import { ChatMessage } from './interfaces/ChatMessage';
 import { Prompt } from './interfaces/Prompt';
+import Header from './components/Header';
 
 function App() {
   const [chatlog, setChatlog] = useState<Array<ChatMessage>>([{
@@ -22,17 +23,17 @@ function App() {
 
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const changeCurrentPrompt = (prompt:string) => {
-    if(prompt !== ''){
+  const changeCurrentPrompt = (prompt: string) => {
+    if (prompt !== '') {
       setError('')
       setCurrentPrompt({ id: chatlog.length, userCreated: true, message: prompt })
     } else {
       setCurrentPrompt({ id: chatlog.length, userCreated: true, message: '' })
     }
   }
-  
+
   const submitPrompt = () => {
-    if(currentPrompt.message !== undefined){
+    if (currentPrompt.message !== undefined) {
       setChatlog([...chatlog, {
         id: chatlog.length,
         userCreated: true,
@@ -46,12 +47,15 @@ function App() {
       setError('Please fill in your question here')
     }
     setCurrentPrompt({ id: chatlog.length, userCreated: true, message: '' })
-    if(inputRef.current) { inputRef.current.value = '' }
+    if (inputRef.current) { inputRef.current.value = '' }
   }
 
   return (
     <>
-      <Stack mb="10vh">
+      <Affix position={{ top: 0, left: 0 }}>
+        <Header/>
+      </Affix>
+      <Stack mb="10vh" mt="5vh" gap={0}>
         {chatlog.map((chat) => <Message userGenerated={chat.userCreated} key={chat.id}>{chat.message}</Message>)}
       </Stack>
       <Affix
@@ -61,7 +65,7 @@ function App() {
           w='100vw'
           px='5vw'
           py='lg'
-          bg='gray'
+          bg='#171717'
           h="10vh">
           <TextInput
             style={{ flexGrow: 1 }}
@@ -70,7 +74,8 @@ function App() {
             ref={inputRef} />
           <ActionIcon
             size='xl'
-            onClick={submitPrompt}>
+            onClick={submitPrompt}
+            color="#1ec480">
             <MdSend />
           </ActionIcon>
         </Group>
