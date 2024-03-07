@@ -42,21 +42,21 @@ function App() {
       }])
       setLoading(true)
       await new Promise(r => setTimeout(r, 3000));
-      generateGptMsg()
+      setChatlog([...chatlog, {
+        id: chatlog.length,
+        userCreated: true,
+        message: <Text>{currentPrompt.message}</Text>
+      },{
+        id: chatlog.length + 1,
+        userCreated: false,
+        message: generateResponse(currentPrompt.message)
+      }])
+      setLoading(false)
     } else {
       setError('Please fill in your question here')
     }
     setCurrentPrompt({ id: chatlog.length, userCreated: true, message: '' })
     if (inputRef.current) { inputRef.current.value = '' }
-  }
-
-  const generateGptMsg = () => {
-    setChatlog([...chatlog, {
-      id: chatlog.length + 1,
-      userCreated: false,
-      message: generateResponse(currentPrompt.message)
-    }])
-    setLoading(false)
   }
 
   return (
