@@ -1,6 +1,6 @@
 import { MdSend } from 'react-icons/md'
 import './App.css'
-import { ActionIcon, Affix, Group, Stack, Text, TextInput } from '@mantine/core'
+import { ActionIcon, Affix, Center, Group, Loader, Stack, Text, TextInput } from '@mantine/core'
 import { useRef, useState } from 'react'
 import Message from './components/Message';
 import generateResponse from './utils/responseGenerator';
@@ -20,6 +20,7 @@ function App() {
     message: ''
   });
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -32,17 +33,16 @@ function App() {
     }
   }
 
-  const submitPrompt = () => {
+  const submitPrompt = async () => {
     if (currentPrompt.message !== undefined) {
       setChatlog([...chatlog, {
         id: chatlog.length,
         userCreated: true,
         message: <Text>{currentPrompt.message}</Text>
-      }, {
-        id: chatlog.length + 1,
-        userCreated: false,
-        message: generateResponse(currentPrompt.message)
       }])
+      setLoading(true)
+      await new Promise(r => setTimeout(r, 3000));
+      generateGptMsg()
     } else {
       setError('Please fill in your question here')
     }
@@ -50,13 +50,27 @@ function App() {
     if (inputRef.current) { inputRef.current.value = '' }
   }
 
+  const generateGptMsg = () => {
+    setChatlog([...chatlog, {
+      id: chatlog.length + 1,
+      userCreated: false,
+      message: generateResponse(currentPrompt.message)
+    }])
+    setLoading(false)
+  }
+
   return (
     <>
       <Affix position={{ top: 0, left: 0 }}>
-        <Header/>
+        <Header />
       </Affix>
       <Stack mb="10vh" mt="5vh" gap={0}>
         {chatlog.map((chat) => <Message userGenerated={chat.userCreated} key={chat.id}>{chat.message}</Message>)}
+        {loading && (
+          <Center p='lg' bg="#212121">
+            <Loader type='dots' color='#1ec480' />
+          </Center>
+        )}
       </Stack>
       <Affix
         position={{ bottom: 0, left: 0 }}>
