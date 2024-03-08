@@ -64,7 +64,7 @@ function App() {
       <Affix position={{ top: 0, left: 0 }}>
         <Header />
       </Affix>
-      <Stack mb="10vh" mt="7vh" gap={0}>
+      <Stack mb="10vh" mt="6.5vh" gap={0}>
         {chatlog.map((chat) => <Message userGenerated={chat.userCreated} key={chat.id}>{chat.message}</Message>)}
         {loading && (
           <Center p='lg' bg="#212121">
